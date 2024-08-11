@@ -8,10 +8,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
@@ -48,11 +50,15 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
             token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
-            String user = Jwts.parser()
-                    .setSigningKey( SecurityConstants.TOKEN_SECRET)
-                    .parseClaimsJws( token )
-                    .getBody()
-                    .getSubject();
+            String user = null;
+
+//            String user = Jwts.parser()
+//                    .setSigningKey( SecurityConstants.TOKEN_SECRET)
+//                    .parseClaimsJws( token )
+//                    .getBody()
+//                    .getSubject();
+
+            System.out.println("Heelo");
 
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, null);

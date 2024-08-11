@@ -9,9 +9,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.lang.reflect.Type;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/users")

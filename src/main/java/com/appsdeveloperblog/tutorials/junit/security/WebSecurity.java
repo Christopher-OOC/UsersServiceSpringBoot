@@ -3,6 +3,7 @@ package com.appsdeveloperblog.tutorials.junit.security;
 import com.appsdeveloperblog.tutorials.junit.io.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
+@Configuration
 public class WebSecurity {
 
     @Autowired
@@ -28,20 +30,21 @@ public class WebSecurity {
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http
-                .cors().disable()
-                .csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users")
-                .permitAll()
-                .antMatchers(HttpMethod.POST, "/users/login")
-                .permitAll()
-                .anyRequest().authenticated().and()
+                .cors(cors -> cors.disable())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .addFilter(getAuthenticationFilter(authenticationManager))
                 .addFilter(new AuthorizationFilter(authenticationManager, usersRepository))
                 .authenticationManager(authenticationManager)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.headers().frameOptions().disable();
+        http.headers(headers -> headers.frameOptions(
+                options -> options.disable()
+        ));
 
         return http.build();
     }

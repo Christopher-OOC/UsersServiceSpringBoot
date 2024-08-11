@@ -15,10 +15,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,13 +38,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             byte[] inputStreamBytes = StreamUtils.copyToByteArray(req.getInputStream());
             Map<String, String> jsonRequest = new ObjectMapper().readValue(inputStreamBytes, Map.class);
 
-            UserLoginRequestModel creds = new ObjectMapper()
-                    .readValue(jsonRequest.get("body"), UserLoginRequestModel.class);
+//            UserLoginRequestModel creds = new ObjectMapper()
+//                    .readValue(jsonRequest.get("body"), UserLoginRequestModel.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            jsonRequest.get("email"),
+                            jsonRequest.get("password"),
                             new ArrayList<>())
             );
 

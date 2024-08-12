@@ -1,0 +1,4 @@
+server:
+  error:
+    include-binding-errors: always
+  port: 8888

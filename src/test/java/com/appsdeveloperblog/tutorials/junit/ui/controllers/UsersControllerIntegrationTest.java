@@ -78,7 +78,8 @@ public class UsersControllerIntegrationTest {
         
         // Act
         ResponseEntity<List<UserRest>> response = testRestTemplate.exchange("/users", HttpMethod.GET, requestEntity,
-                new ParameterizedTypeReference<List<UserRest>>() {});
+                new ParameterizedTypeReference<>() {
+                });
 
 
         // Assert
@@ -119,7 +120,7 @@ public class UsersControllerIntegrationTest {
         HttpEntity requestEntity = new HttpEntity(headers);
 
         // Act
-        ResponseEntity<List<UserRest>> response = testRestTemplate.exchange("/users", HttpMethod.GET, requestEntity, new ParameterizedTypeReference<List<UserRest>>() {
+        ResponseEntity<List<UserRest>> response = testRestTemplate.exchange("/users", HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {
         });
 
         // Assert

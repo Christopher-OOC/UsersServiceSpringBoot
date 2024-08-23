@@ -35,6 +35,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
+            System.out.println("Hello I can see it on the console!!");
             byte[] inputStreamBytes = StreamUtils.copyToByteArray(req.getInputStream());
             Map<String, String> jsonRequest = new ObjectMapper().readValue(inputStreamBytes, Map.class);
 

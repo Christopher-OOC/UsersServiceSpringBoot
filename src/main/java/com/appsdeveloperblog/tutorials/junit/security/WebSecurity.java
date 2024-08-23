@@ -1,5 +1,8 @@
 package com.appsdeveloperblog.tutorials.junit.security;
 
+
+
+
 import com.appsdeveloperblog.tutorials.junit.io.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,12 +32,15 @@ public class WebSecurity {
         // Get AuthenticationManager
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
+        // gdhjd
+
         http
                 .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/index").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilter(getAuthenticationFilter(authenticationManager))
